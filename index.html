@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en" style="scroll-behavior: smooth;">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Net Worth Projection Tool</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="bg-gradient-to-br from-slate-900 to-slate-700 text-gray-100 p-0 m-0 overflow-x-hidden">
+
+    <div id="mainContainer" class="min-h-screen flex flex-col">
+        <!-- Input Page Container -->
+        <div id="inputPage" class="flex-grow flex items-center justify-center p-4 md:p-8">
+            <div class="container mx-auto max-w-7xl grid grid-cols-1 md:grid-cols-12 gap-8 items-start">
+                <!-- Left Side: Title and Intro -->
+                <div class="md:col-span-5 text-center md:text-left py-8 md:py-16">
+                    <h1 class="text-5xl md:text-6xl font-bold text-white mb-6 font-playfair">Future Wealth Forecaster</h1>
+                    <p class="text-lg md:text-xl text-slate-300 mb-8">
+                        Chart your financial journey. Enter your current assets, investment plans, and projected growth to visualize your net worth over time.
+                    </p>
+                    <button id="getStartedButton" class="bg-teal-500 hover:bg-teal-600 text-white font-bold py-3 px-8 rounded-lg shadow-lg transition duration-300 ease-in-out transform hover:scale-105 text-lg">
+                        Get Started &rarr;
+                    </button>
+                </div>
+
+                <!-- Right Side: Input Form (Initially Hidden or less prominent, shown after "Get Started") -->
+                <div id="formSection" class="md:col-span-7 space-y-6 hidden">
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                        <div class="lg:col-span-1 space-y-6">
+                            <div class="card bg-slate-800/70 backdrop-blur-md shadow-xl">
+                                <h2 class="section-title border-b border-slate-600 pb-2 mb-4 text-teal-400">Initial Holdings (₹)</h2>
+                                <div class="input-group">
+                                    <label for="initialCash" class="input-label">Cash</label>
+                                    <input type="number" id="initialCash" class="input-field" value="896000">
+                                </div>
+                                <div class="input-group">
+                                    <label for="initialPPF" class="input-label">PPF</label>
+                                    <input type="number" id="initialPPF" class="input-field" value="254000">
+                                </div>
+                                <div class="input-group">
+                                    <label for="initialEquityMF" class="input-label">Equity MF</label>
+                                    <input type="number" id="initialEquityMF" class="input-field" value="945000">
+                                </div>
+                                <div class="input-group">
+                                    <label for="initialUSStocks" class="input-label">US Stocks (incl. Overseas)</label>
+                                    <input type="number" id="initialUSStocks" class="input-field" value="27000">
+                                </div>
+                                <div class="input-group">
+                                    <label for="initialIndianStocks" class="input-label">Indian Stocks</label>
+                                    <input type="number" id="initialIndianStocks" class="input-field" value="138000">
+                                </div>
+                                <div class="input-group">
+                                    <label for="initialGold" class="input-label">Gold</label>
+                                    <input type="number" id="initialGold" class="input-field" value="87130">
+                                </div>
+                                <div class="input-group">
+                                    <label for="initialNPS" class="input-label">NPS</label>
+                                    <input type="number" id="initialNPS" class="input-field" value="171500">
+                                </div>
+                                <div class="input-group">
+                                    <label for="initialPF" class="input-label">PF</label>
+                                    <input type="number" id="initialPF" class="input-field" value="362000">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="lg:col-span-1 space-y-6">
+                            <div class="card bg-slate-800/70 backdrop-blur-md shadow-xl">
+                                <h2 class="section-title border-b border-slate-600 pb-2 mb-4 text-teal-400">Investment Parameters</h2>
+                                <div class="input-group">
+                                    <label for="pfMonthlyInvestment" class="input-label">PF Monthly Investment (₹)</label>
+                                    <input type="number" id="pfMonthlyInvestment" class="input-field" value="10000">
+                                </div>
+                                <div class="input-group">
+                                    <label for="pfStepUp" class="input-label">PF Annual Step-up (%)</label>
+                                    <input type="number" id="pfStepUp" class="input-field" value="10">
+                                </div>
+                                <div class="input-group">
+                                    <label for="npsAnnualInvestment" class="input-label">NPS Annual Investment (₹)</label>
+                                    <input type="number" id="npsAnnualInvestment" class="input-field" value="50000">
+                                </div>
+                                <h3 class="text-lg font-semibold mt-4 mb-2 text-gray-700">Split Portfolio Investments</h3>
+                                <div class="input-group">
+                                    <label for="splitMonthlyTotal" class="input-label">Total Monthly Investment (₹)</label>
+                                    <input type="number" id="splitMonthlyTotal" class="input-field" value="120000">
+                                </div>
+                                <div class="grid grid-cols-2 gap-x-4">
+                                    <div class="input-group">
+                                        <label for="splitEquityMFProportion" class="input-label">Equity MF (%)</label>
+                                        <input type="number" id="splitEquityMFProportion" class="input-field" value="20.83"> </div>
+                                    <div class="input-group">
+                                        <label for="splitIndianStocksProportion" class="input-label">Indian Stocks (%)</label>
+                                        <input type="number" id="splitIndianStocksProportion" class="input-field" value="25.00"> </div>
+                                    <div class="input-group">
+                                        <label for="splitUSStocksProportion" class="input-label">US Stocks (%)</label>
+                                        <input type="number" id="splitUSStocksProportion" class="input-field" value="41.67"> </div>
+                                    <div class="input-group">
+                                        <label for="splitGoldProportion" class="input-label">Gold (%)</label>
+                                        <input type="number" id="splitGoldProportion" class="input-field" value="12.50"> </div>
+                                </div>
+                                <div class="input-group">
+                                    <label for="splitStepUp" class="input-label">Split Portfolio Annual Step-up (%)</label>
+                                    <input type="number" id="splitStepUp" class="input-field" value="10">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="lg:col-span-1 space-y-6">
+                            <div class="card bg-slate-800/70 backdrop-blur-md shadow-xl">
+                                <h2 class="section-title border-b border-slate-600 pb-2 mb-4 text-teal-400">Growth & Period</h2>
+                                <div class="input-group">
+                                    <label for="ppfRate" class="input-label">PPF Interest Rate (%)</label>
+                                    <input type="number" id="ppfRate" class="input-field" value="7.1">
+                                </div>
+                                <div class="input-group">
+                                    <label for="pfRate" class="input-label">PF Interest Rate (%)</label>
+                                    <input type="number" id="pfRate" class="input-field" value="8.1">
+                                </div>
+                                <div class="input-group">
+                                    <label for="npsRate" class="input-label">NPS Growth Rate (%)</label>
+                                    <input type="number" id="npsRate" class="input-field" value="10">
+                                </div>
+                                <div class="input-group">
+                                    <label for="primaryCAGR" class="input-label">Primary CAGR for Growth Assets (MF, Stocks, Gold) (%)</label>
+                                    <input type="number" id="primaryCAGR" class="input-field" value="14">
+                                </div>
+                                <div class="input-group">
+                                    <label for="projectionYears" class="input-label">Projection Years</label>
+                                    <input type="number" id="projectionYears" class="input-field" value="25">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                     <button id="calculateButton" class="w-full bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-6 rounded-lg shadow-lg transition duration-300 ease-in-out transform hover:scale-105 text-lg">
+                        View Projection
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Results Page Container - Initially Hidden -->
+        <div id="resultsPage" style="display: none;" class="flex-grow p-4 md:p-8">
+            <div class="sticky top-0 z-20 bg-slate-800/80 backdrop-blur-md py-4 mb-6 shadow-lg">
+                <div class="container mx-auto max-w-7xl px-4 md:px-0 flex justify-between items-center">
+                    <button id="backToInputsButton" class="bg-slate-600 hover:bg-slate-500 text-white font-bold py-2 px-4 rounded-lg shadow-md transition duration-150 ease-in-out">
+                        &larr; Revise Inputs
+                    </button>
+                    <h2 class="text-2xl font-semibold text-teal-400 font-playfair">Your Financial Forecast</h2>
+                    <button id="viewChartPageButton" class="bg-teal-500 hover:bg-teal-600 text-white font-bold py-2 px-4 rounded-lg shadow-md transition duration-150 ease-in-out">
+                        Full Chart View &rarr;
+                    </button>
+                </div>
+            </div>
+            <div class="container mx-auto max-w-7xl">
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                     <div class="lg:col-span-2 space-y-6">
+                        <div class="card bg-slate-800/70 backdrop-blur-md shadow-xl sticky top-24 z-10">
+                            <h2 class="section-title text-teal-400">Projection Summary</h2>
+                            <div id="resultsSummary" class="overflow-x-auto overflow-y-auto max-h-[60vh]">
+                                <p class="text-gray-500">Click "Calculate Projection" to see results.</p>
+                            </div>
+                        </div>
+                     </div>
+                     <div class="lg:col-span-1 space-y-6">
+                        <div class="card bg-slate-800/70 backdrop-blur-md shadow-xl">
+                            <h2 class="section-title text-teal-400">Final Year Asset Breakdown</h2>
+                            <div id="finalAssetBreakdown" class="overflow-x-auto">
+                                 <p class="text-gray-500">Details will appear here after calculation.</p>
+                            </div>
+                            <canvas id="finalAssetPieChart" class="mt-4 rounded-lg max-h-80" style="height: 320px;"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Chart Page Container - Initially Hidden -->
+        <div id="chartPage" style="display: none;" class="flex-grow flex flex-col p-4 md:p-8">
+            <div class="sticky top-0 z-20 bg-slate-800/80 backdrop-blur-md py-3 mb-4 shadow-lg">
+                <div class="container mx-auto max-w-7xl px-4 md:px-0 flex items-center">
+                    <button id="backToResultsButton" class="bg-slate-600 hover:bg-slate-500 text-white font-bold py-2 px-4 rounded-lg shadow-md transition duration-150 ease-in-out">
+                        &larr; Back to Summary
+                    </button>
+                    <h2 class="text-xl font-semibold text-teal-400 font-playfair ml-4">Net Worth Growth Chart</h2>
+                </div>
+            </div>
+            <div class="container mx-auto max-w-7xl flex-grow flex flex-col">
+                <div class="card bg-slate-800/70 backdrop-blur-md shadow-xl flex-grow flex flex-col">
+                     <div class="chart-container flex-grow relative">
+                        <canvas id="netWorthChart" class="rounded-lg"></canvas>
+                     </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/hammer.js/2.0.8/hammer.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-zoom/2.0.1/chartjs-plugin-zoom.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
