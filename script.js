@@ -260,24 +260,29 @@ function displayNetWorthChart(results) {
                     data: netWorthData,
                     borderColor: '#2DD4BF', // Teal
                     backgroundColor: 'rgba(45, 212, 191, 0.2)',
-                    tension: 0.2,
+                    tension: 0, // Performance: Straight lines are less computationally intensive
                     fill: true,
                     pointBackgroundColor: '#2DD4BF',
-                    pointBorderColor: '#fff'
+                    pointBorderColor: '#fff',
+                    pointRadius: 0, // Performance: Don't render points by default for large datasets
+                    pointHitRadius: 10 // Performance: Allow tooltips to trigger when hovering near the line
                 },
                 {
                     label: 'Cumulative Investments',
                     data: cumulativeInvestmentData,
                     borderColor: '#F472B6', // Pink
                     backgroundColor: 'rgba(244, 114, 182, 0.1)',
-                    tension: 0.2,
+                    tension: 0, // Performance: Straight lines are less computationally intensive
                     fill: false,
                     pointBackgroundColor: '#F472B6',
-                    pointBorderColor: '#fff'
+                    pointBorderColor: '#fff',
+                    pointRadius: 0, // Performance: Don't render points by default for large datasets
+                    pointHitRadius: 10 // Performance: Allow tooltips to trigger when hovering near the line
                 }
             ]
         },
         options: {
+            animation: false, // Performance: Disable animations for faster rendering with large datasets
             responsive: true,
             maintainAspectRatio: false, // Crucial for the canvas to fill the container
             scales: {
